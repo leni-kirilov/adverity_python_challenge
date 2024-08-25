@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import environ
 
@@ -17,6 +17,15 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
+path_env_dev = os.path.join(BASE_DIR.parent, '.env.dev')
+path_env = os.path.join(BASE_DIR.parent, '.env')
+
+if os.path.exists(path_env_dev):
+    env.read_env(path_env_dev)
+elif os.path.exists(path_env):
+    env.read_env(path_env)
+else:
+    raise RuntimeError("Cannot find .env or .env.dev files")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
