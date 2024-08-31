@@ -3,17 +3,22 @@
 {% block title %}Index{% endblock title %}
 {% block content %}
 
-    <div class="col-sm-8">
-        <h4 class="d-inline-block">Collections</h4>
-        <button id="fetch-btn" type="button" class="btn btn-success">Fetch</button>
-    </div>
+<div class="col-sm-8">
+    <h4 class="d-inline-block">Collections</h4>
 
-    <script>
-        $(document).ready(function () {
-            $("#fetch-btn").click(function () {
-                alert("This needs to be implemented. Good luck!");
-            });
-        });
-    </script>
+    <form method="post" action="{% url 'fetch_characters' %}">
+        {% csrf_token %}
+        <button type="submit">Fetch and write CSVs to disk</button>
+    </form>
+
+    </br>
+
+    <h4>Downloaded files</h4>
+    <ul>
+        {% for link in links %}
+            <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 
 {% endblock content %}
