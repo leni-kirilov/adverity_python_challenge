@@ -14,7 +14,7 @@ class SwapiTestCase(unittest.TestCase):
         self.assertEqual(len(result), 6)
 
     def test_get_all_items_many_pages(self):
-        result = swapi.get_all_items(swapi.SWAPI_CHARACTERS_ENDPOINT)  # TODO or mock it?
+        result = swapi.get_all_items(swapi.SWAPI_CHARACTERS_ENDPOINT)
         self.assertEqual(len(result), 82)
 
     def test_get_planet_name_negative(self):

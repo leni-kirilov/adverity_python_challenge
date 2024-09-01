@@ -13,7 +13,8 @@ PAGE_SIZE = 10
 
 
 def transform(characters: list):
-    if not characters: raise ValueError("Empty dictionary cannot be transformed")
+    if not characters:
+        raise ValueError("Empty dictionary cannot be transformed")
 
     now = datetime.datetime.now()
     print('Transforming characters')
@@ -33,9 +34,12 @@ def transform(characters: list):
 
 
 def get_data_up_to_page(filename: str, page_number: int) -> list:
-    if not filename: raise ValueError("Filename is empty")
-    if not os.path.exists(filename): raise ValueError("Filename does not exist")
-    if page_number < 0: raise ValueError("page_number must be non-negative")
+    if not filename:
+        raise ValueError("Filename is empty")
+    if not os.path.exists(filename):
+        raise ValueError("Filename does not exist")
+    if page_number < 0:
+        raise ValueError("page_number must be non-negative")
 
     start_entry_index = 0
     end_entry_index = (page_number + 1) * PAGE_SIZE
@@ -47,8 +51,10 @@ def get_data_up_to_page(filename: str, page_number: int) -> list:
 
 
 def aggregate(dataset_file_name: str, *columns) -> list:
-    if not dataset_file_name: raise ValueError("dataset_file_name is empty")
-    if not columns: raise ValueError("Aggregating columns cannot be empty")
+    if not dataset_file_name:
+        raise ValueError("dataset_file_name is empty")
+    if not columns:
+        raise ValueError("Aggregating columns cannot be empty")
 
     characters = petl.fromcsv(dataset_file_name)
 

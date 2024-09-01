@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 from core.models import Dataset
 from core.services import swapi, datasets
 
-CHARACTERS_SELECTABLE_FIELDS = ['name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color', 'birth_year', 'gender',
-                       'homeworld', 'url', 'date']
+CHARACTERS_SELECTABLE_FIELDS = ['name', 'height', 'mass',
+                                'hair_color', 'skin_color', 'eye_color',
+                                'birth_year', 'gender',
+                                'homeworld', 'url', 'date']
 
 
 class IndexView(TemplateView):
@@ -50,6 +52,7 @@ def show_dataset(request, id):
         }
     )
 
+
 def show_dataset_aggregate(request, id):
     dataset = Dataset.objects.filter(id=id).get()
     selected_fields: str = request.GET.get('selected_fields')
@@ -68,7 +71,7 @@ def show_dataset_aggregate(request, id):
         {
             'id': id,
             'filename': dataset.filename,
-            'fields': CHARACTERS_SELECTABLE_FIELDS, #TODO make it dynamic from datasets.get_header
+            'fields': CHARACTERS_SELECTABLE_FIELDS,  # TODO make it dynamic from datasets.get_header
             'selected_fields': split,
             'header': header,
             'data': data

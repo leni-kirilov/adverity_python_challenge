@@ -13,7 +13,8 @@ def get_all_characters() -> list:
 
 
 def get_planet_name(planet_url: str) -> str:
-    if not planet_url: raise ValueError("planet_url cannot be None or empty")
+    if not planet_url:
+        raise ValueError("planet_url cannot be None or empty")
 
     if not planet_url_2_name_cache:
         planet_url_2_name_cache.update({
@@ -25,7 +26,8 @@ def get_planet_name(planet_url: str) -> str:
 
 
 def get_all_items(swapi_url: str) -> list:
-    if not swapi_url: raise ValueError("swapi_url cannot be None or empty")
+    if not swapi_url:
+        raise ValueError("swapi_url cannot be None or empty")
 
     items = []
 
