@@ -11,16 +11,15 @@ PAGE_SIZE = 10
 
 
 def transform(characters: dict):
-    print("Transforming characters")
     now = datetime.datetime.now()
-    filename = "petl_characters_" + now.strftime("%Y_%m_%d %H-%M-%S") + ".csv"
+    print('Transforming characters')
+    filename = "petl_characters_" + now.strftime("%Y_%m_%d %H-%M-%S")  + ".csv"
 
     # ODO surround in try-catch ?
-    print("Storing dataset to the DB...")
+    print('Storing dataset to the DB...')
     dataset = Dataset.objects.create_dataset(filename, now)
     dataset.save()  # TODO REQ1 should I store to filesystem and then to db?
 
-    # TODO REQ1 is petl slow? or writing to filesystem is slow?
     print("Writing to csv")
     return (petl
             .fromdicts(characters)

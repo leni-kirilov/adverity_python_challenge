@@ -1,31 +1,32 @@
 import requests
 
 SWAPI_CHARACTERS_ENDPOINT = "https://swapi.dev/api/people/"
+SWAPI_PLANETS_ENDPOINT = "https://swapi.dev/api/planets/"
 
-fetched_planets_cache = {}
+planet_url_2_name_cache = {}
 
 
 def get_all_characters() -> list:
-    print("Getting all characters")
-    url = SWAPI_CHARACTERS_ENDPOINT
-    people = []
+    return get_all_items(SWAPI_CHARACTERS_ENDPOINT)
 
-    while url:
-        response = requests.get(url)
+
+def get_planet_name(planet_url: str) -> str:
+    if not planet_url_2_name_cache:
+        planet_url_2_name_cache.update({
+            planet['url']: planet['name']
+            for planet in get_all_items(SWAPI_PLANETS_ENDPOINT)
+        })
+
+    return planet_url_2_name_cache.get(planet_url)
+
+
+def get_all_items(swapi_url: str) -> list:
+    items = []
+
+    while swapi_url:
+        response = requests.get(swapi_url)
         data = response.json()
 
-        people.extend(data["results"])
-        url = data.get("next")
-    return people
-
-
-# TODO REQ2 - maybe prefetch all planets. only ~60
-def get_planet_name(planet_url: str) -> str:
-    cached_planet_name = fetched_planets_cache.get(planet_url)
-
-    if cached_planet_name is not None:
-        return cached_planet_name
-
-    new_planet_name = requests.get(planet_url).json()['name']
-    fetched_planets_cache[planet_url] = new_planet_name
-    return new_planet_name
+        items.extend(data["results"])
+        swapi_url = data.get("next")
+    return items

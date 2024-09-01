@@ -26,7 +26,7 @@ def fetch_characters(request):
     if request.method == 'POST':  # TODO does it need to be a POST?
         characters = wapi.get_all_characters()
         datasets.transform(characters)
-        print("Done")
+        print('Done')
         return redirect('index')
 
 
