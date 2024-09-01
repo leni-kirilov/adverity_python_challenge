@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Dataset{% endblock title %}
+{% block content %}
+{% load custom_tags %}
+
+
+<div class="col-sm-8">
+    <h4>Dataset {{ filename }}</h4>
+
+    <table id="selectable-fields-table">
+        <b>Selectable fields</b>
+        {% for column_name in fields %}
+        <th data-field="{{ column_name}}" class="{% if column_name in selected_fields %}selected{% endif %}">
+            {{column_name }}
+        </th>
+        {% endfor %}
+    </table>
+
+    <table>
+        <tr>
+            {% for column_name in header %}
+            <th>{{ column_name }}</th>
+            {% endfor %}
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            {% for column_name in header %}
+            {% with row|get_item:column_name as value %}
+            <td>{{ value }}</td>
+            {% endwith %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<style>
+    /* Default styling for table headers */
+    #selectable-fields-table th {
+        cursor: pointer;
+        padding: 8px;
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+    }
+
+    /* Styling for selected fields */
+    #selectable-fields-table th.selected {
+        background-color: #007bff;
+        color: white;
+    }
+
+    /* Styling for unselected fields */
+    #selectable-fields-table th:not(.selected) {
+        background-color: #f1f1f1;
+        color: black;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var selectedFields = urlParams.get('selected_fields') ? urlParams.get('selected_fields').split(',') : [];
+
+        $('#selectable-fields-table th').click(function () {
+            var field = $(this).data('field');
+            if (selectedFields.includes(field)) {
+                selectedFields = selectedFields.filter(f => f !== field);
+                $(this).removeClass('selected');
+            } else {
+                selectedFields.push(field);
+                $(this).addClass('selected');
+            }
+
+            var fieldsString = selectedFields.join(',');
+
+            var url = '{% url "show_dataset_aggregate" id=id %}' + '?selected_fields=' + encodeURIComponent(fieldsString);
+            window.location.href = url;
+        });
+    });
+</script>
+
+{% endblock content %}

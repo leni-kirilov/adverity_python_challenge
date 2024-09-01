@@ -1,10 +1,13 @@
 import requests
 
+SWAPI_CHARACTERS_ENDPOINT = "https://swapi.dev/api/people/"
 
-# TODO REQ1 - to make it more reusable for the other requirements
-def get_all_characters():
+fetched_planets_cache = {}
+
+
+def get_all_characters() -> list:
     print("Getting all characters")
-    url = "https://swapi.dev/api/people/"
+    url = SWAPI_CHARACTERS_ENDPOINT
     people = []
 
     while url:
@@ -16,11 +19,8 @@ def get_all_characters():
     return people
 
 
-fetched_planets_cache = {}
-
-
-# TODO REQ2 - maybe prefetch all planets. only 60
-def get_planet_name(planet_url):
+# TODO REQ2 - maybe prefetch all planets. only ~60
+def get_planet_name(planet_url: str) -> str:
     cached_planet_name = fetched_planets_cache.get(planet_url)
 
     if cached_planet_name is not None:

@@ -6,6 +6,12 @@
 
 <div class="col-sm-8">
     <h4>Dataset {{ filename }}</h4>
+
+    <form method="get" action="{% url 'show_dataset_aggregate' id=id %}">
+        {% csrf_token %}
+        <button type="submit">Aggregate</button>
+    </form>
+
     <table>
         <tr>
             {% for column_name in header %}
@@ -16,9 +22,9 @@
         {% for row in data %}
         <tr>
             {% for column_name in header %}
-                {% with row|get_item:column_name as value %}
-                <td>{{ value }}</td>
-                {% endwith %}
+            {% with row|get_item:column_name as value %}
+            <td>{{ value }}</td>
+            {% endwith %}
             {% endfor %}
         </tr>
         {% endfor %}
