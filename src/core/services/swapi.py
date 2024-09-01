@@ -23,7 +23,8 @@ def get_planet_name(planet_url: str) -> str:
 
     return planet_url_2_name_cache.get(planet_url)
 
-def get_all_items(swapi_url: str) -> list[Any] | None:
+
+def get_all_items(swapi_url: str) -> list:
     if not swapi_url: raise ValueError("swapi_url cannot be None or empty")
 
     items = []

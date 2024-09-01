@@ -12,3 +12,6 @@ class Dataset(models.Model):
     date_created = models.DateTimeField()
 
     objects = DatasetManager()
+
+    class Meta:
+        app_label = 'core'
