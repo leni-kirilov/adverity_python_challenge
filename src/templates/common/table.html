@@ -1,0 +1,19 @@
+{% load custom_tags %}
+
+<table>
+    <tr>
+        {% for column_name in header %}
+        <th>{{ column_name }}</th>
+        {% endfor %}
+    </tr>
+
+    {% for row in data %}
+    <tr>
+        {% for column_name in header %}
+        {% with row|get_item:column_name as value %}
+        <td>{{ value }}</td>
+        {% endwith %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>

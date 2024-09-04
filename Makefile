@@ -14,3 +14,9 @@ down:
 
 bash:
 	$(COMPOSE) exec django bash
+
+run_local:
+	python ./src/manage.py runserver --insecure 0.0.0.0:8000
+
+test_local:
+	cd src && python manage.py test --noinput

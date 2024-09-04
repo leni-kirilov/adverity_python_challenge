@@ -2,3 +2,4 @@ Django==4.2
 psycopg2-binary==2.9.9
 django-environ==0.10.0
 petl==1.7.12
+requests~=2.32.3

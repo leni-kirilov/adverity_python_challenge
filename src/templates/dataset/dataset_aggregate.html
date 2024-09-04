@@ -2,11 +2,9 @@
 
 {% block title %}Dataset{% endblock title %}
 {% block content %}
-{% load custom_tags %}
-
 
 <div class="col-sm-8">
-    <h4>Dataset {{ filename }}</h4>
+    <h4>Dataset Aggregate {{ filename }}</h4>
 
     <table id="selectable-fields-table">
         <b>Selectable fields</b>
@@ -17,23 +15,7 @@
         {% endfor %}
     </table>
 
-    <table>
-        <tr>
-            {% for column_name in header %}
-            <th>{{ column_name }}</th>
-            {% endfor %}
-        </tr>
-
-        {% for row in data %}
-        <tr>
-            {% for column_name in header %}
-            {% with row|get_item:column_name as value %}
-            <td>{{ value }}</td>
-            {% endwith %}
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+    {% include 'common/table.html' %}
 </div>
 
 <style>
@@ -49,12 +31,6 @@
     #selectable-fields-table th.selected {
         background-color: #007bff;
         color: white;
-    }
-
-    /* Styling for unselected fields */
-    #selectable-fields-table th:not(.selected) {
-        background-color: #f1f1f1;
-        color: black;
     }
 </style>
 
