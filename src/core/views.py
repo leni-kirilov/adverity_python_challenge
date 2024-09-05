@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 
 from core.models import Dataset
-from core.services import swapi, datasets
+from core.services import datasets
 
 CHARACTERS_SELECTABLE_FIELDS = ["name", "height", "mass",
                                 "hair_color", "skin_color", "eye_color",
@@ -24,17 +24,9 @@ def index(request):
 
 
 def fetch_characters(request):
-    """Handles button the fetch and persist characters"""
-    if request.method == "POST":  # TODO does it need to be a POST?
-
-        characters = swapi.get_all_characters()
-
-        result_csv_filename, now = datasets.transform_and_write_to_file(characters)
-
-        print("Storing dataset to the DB...")
-        Dataset.objects.create(filename=result_csv_filename, date_created=now).save()
-
-        print("Done. [" + result_csv_filename + "] was created")
+    """Handles the button fetch and persist characters"""
+    if request.method == "POST":
+        datasets.fetch_transform_persist()
         return redirect("index")
 
 

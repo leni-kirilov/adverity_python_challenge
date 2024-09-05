@@ -131,7 +131,7 @@ class SwapiTestCase(unittest.TestCase):
         self.setup_mock_planets(mock_requests)
 
         # expect correct result and cache is filled
-        self.assertEqual("Tatooine", swapi.get_planet_name("https://swapi.dev/api/planets/1/"), )  # TODO mock this URL
+        self.assertEqual("Tatooine", swapi.get_planet_name("https://swapi.dev/api/planets/1/"), )
         self.assertEqual(2, len(swapi._planet_url_to_name_cache), )
 
     # Util functions

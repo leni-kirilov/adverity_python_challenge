@@ -52,7 +52,6 @@ class DatasetTestCase(unittest.TestCase):
         # THEN
         self.assertTrue(os.path.exists(result_filename))
         result_dict = petl.fromcsv(result_filename).dicts().list()
-        # TODO IMPORTANT - check DB entry
         self.assertEqual(len(test_dict), len(result_dict))
         self.assertTrue("films" not in result_dict[0].keys())
         self.assertTrue("http" not in result_dict[0]["homeworld"])

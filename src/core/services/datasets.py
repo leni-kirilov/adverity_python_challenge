@@ -4,6 +4,7 @@ from datetime import datetime
 import petl
 
 from core.services import swapi
+from core.models import Dataset
 
 CSV_FILENAME_PREFIX = "petl_characters_"
 UNNECESSARY_COLUMNS = "films", "species", "vehicles", "starships", "created", "edited"
@@ -88,3 +89,20 @@ def aggregate(dataset_filename: str, *columns) -> list:
             .cutout("frequency")
             .dicts()
             .list())
+
+
+def fetch_transform_persist():
+    """Fetch data from SWAPI and persist it
+
+    Returns the DB record for the new Dataset
+    """
+    characters = swapi.get_all_characters()
+
+    result_csv_filename, now = transform_and_write_to_file(characters)
+
+    print("Storing dataset to the DB...")
+    db_dataset = Dataset.objects.create(filename=result_csv_filename, date_created=now)
+    db_dataset.save()
+
+    print("Done. [" + result_csv_filename + "] was created")
+    return db_dataset
