@@ -11,12 +11,11 @@ RAW_CSV_FILENAME = "core/tests/test_data_raw.csv"
 
 
 class DatasetTestCase(unittest.TestCase):
+    result_filename = ""
 
     def tearDown(self):
-        # Clean up created files
-        for file in os.listdir("."):
-            if file.startswith(datasets.CSV_FILENAME_PREFIX):
-                os.remove(file)
+        if self.result_filename != "":
+            os.remove(self.result_filename)
 
     def test_get_data_up_to_page_negative(self):
         self.assertRaises(ValueError, datasets.get_data_up_to_page, None, 0)
@@ -47,11 +46,11 @@ class DatasetTestCase(unittest.TestCase):
         test_dict = petl.fromcsv(RAW_CSV_FILENAME).dicts().list()
 
         # WHEN
-        result_filename, now = datasets.transform_and_write_to_file(test_dict)
+        self.result_filename, now = datasets.transform_and_write_to_file(test_dict)
 
         # THEN
-        self.assertTrue(os.path.exists(result_filename))
-        result_dict = petl.fromcsv(result_filename).dicts().list()
+        self.assertTrue(os.path.exists(self.result_filename))
+        result_dict = petl.fromcsv(self.result_filename).dicts().list()
         self.assertEqual(len(test_dict), len(result_dict))
         self.assertTrue("films" not in result_dict[0].keys())
         self.assertTrue("http" not in result_dict[0]["homeworld"])
