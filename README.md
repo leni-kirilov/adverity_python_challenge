@@ -106,3 +106,32 @@ The Definition of Done:
 Example UI after selecting `birth_year` and `homeworld` columns
 
 ![Example 3](./examples/p3.png)
+
+
+
+### Solution notes:
+- **Backend** - `/core/services`; using scripts instead of classes as in this simple feature it feels it reduces complexity and would deal better with more dynamic data coming from swapi
+  - swapi - handling web requests for any swapi endpoint + planet prefetching
+  - datasets - dealing with csv files transformations, aggregation and DB record persistence
+- **Models** - only the Dataset for DB persistence.  kept it simple
+- **Frontend** 
+  - views.py - the 4 endpoints functionalities
+  - templates - split templates for dataset and aggregation but with a reusable table sub-template
+  - templatetags - a custom tag to get data from a dict so that tables are more dynamic and reusable
+  - input validation added but no beautiful error UI page
+- **Tests** - 
+  - full backend coverage datasets and swapi with mocked UI requests
+  - end2end test added for completeness. it contributes to 50% of test execution time
+- **Local dev** - I didn't use the docker instance as I had postgres locally. thus the added .env.dev, Makefile commands
+
+**A few things I think I did well:**
+- short scripts. highly focused with low coupling
+- fast fetch and write to os
+- UI code reusage
+- code easily can be extended to handle any entity, not just characters (only transform needs to be adjusted)
+- very good test coverage
+
+**A few things I didn't do as I'm new to django:**
+- no ui/template tests
+- no classes used, I didn't feel I had to
+- tried to be PEP8 code style consistent, but maybe didn't apply all the rules everywhere 
